@@ -1,6 +1,6 @@
-import java.util.Map;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
+
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Collections;
 
 
 class Course implements Gradeable{
@@ -33,7 +33,16 @@ class Course implements Gradeable{
 		}
 		 
 		public boolean weightEqualsOne(){
-			return true;
+			double sumOfWeights = 0;
+			for(Assignment assignment: assignmentList) {
+				sumOfWeights += assignment.getWeight();
+			}
+			if(sumOfWeights == 1.0) {
+				return true;
+			}
+			else{
+				return false;
+			}
 		} 
 		public boolean calculateFinalScore() {
 
@@ -61,27 +70,75 @@ class Course implements Gradeable{
 			return true;
 		}
 		public boolean changeWeight(Assignment assignment, double newWeight) {
+			
+			assignment.setWeight(newWeight);
 			return true;
+			
 		}
-		public boolean changeWeight(String type, Double newWeight) {
+		
+		public boolean changeWeight(String category, double newWeight) {
+			double numberOfCategories = 0;
+			for(Assignment assignment : assignmentList) {
+				if(assignment.getCategory().equals(category)) {
+					numberOfCategories++;
+				}
+			double newCategoryWeight = newWeight/numberOfCategories;
+			for(Assignment assignment : assignmentList) {
+				if(assignment.getCategory().equals(category)) {
+					assignment.setWeight(newCategoryWeight);
+				}
+			}
 			return true;
 		}
 		public double getMax() {
-			return 0;
+			double max = Integer.MIN_VALUE;
+			for (Map.Entry<Student, Score> studentFinalScores : finalScoreList.entrySet()) {
+				max = Math.max(max, studentFinalScores.getValue().calculateScore());
+			}
+			return max;
+			
 		}
 		public double getMin() {
-			return 0;
+			double min = Integer.MAX_VALUE;
+			for (Map.Entry<Student, Score> studentFinalScores : finalScoreList.entrySet()) {
+				min = Math.min(min, studentFinalScores.getValue().calculateScore());
+			}
+			return min;
 		}
 		public double calculateAverage() {
+			double = runningSum;
+			double = numberOfStudents;
 			for(Map.Entry<Student, Double> studentFinalScores : finalScoreList.entrySet()) {
+				runningSum +=studentFinalScores;
+				numberOfStudents++;
 				
 			}
-			return 0;
+			double average = runningSum/numberOfStudents;
+			return average;
 		}
+		@Override
 		public double calculateMedian() {
-			return 0;
+			// TODO Auto-generated method stub
+			double[] scores = new double[finalScoreList.size()];
+			int index = 0;
+			for (Map.Entry<Student, Score> studentFinalScores : finalScoreList.entrySet()) {
+				scores[index++] = studentFinalScores.getValue().calculateScore();
+			}
+			Arrays.sort(scores);
+			if (scores.length % 2 == 0) {
+				return (scores[scores.length/2] +scores[scores.length/2 + 1])/2;
+			} else {
+				return scores[scores.length/2];
+			}
 		}
-		public void printStatistics(){}
+		public void printStatistics(){
+			System.out.println("Statistics for this course: ");
+			System.out.println("Median Final Score: " + calculateMedian());
+			System.out.println("Average Final Score: " + calculateAverage());
+			System.out.println("Highest Final Score: " + getMax());
+			System.out.println("Lowest Final Score: " + getMin());
+
+		}
 }
 
 
