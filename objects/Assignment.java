@@ -13,7 +13,7 @@ public class Assignment implements Gradeable{
 	public double getMax() {
 		// TODO Auto-generated method stub
 		double max = Integer.MIN_VALUE;
-		for (Map.Entry<Student, Score> studentScores : this.scoreList) {
+		for (Map.Entry<Student, Score> studentScores : this.scoreList.entrySet()) {
 			max = Math.max(max, studentScores.getValue().calculateScore());
 		}
 		return max;
@@ -22,7 +22,7 @@ public class Assignment implements Gradeable{
 	public double getMin() {
 		// TODO Auto-generated method stub
 		double min = Integer.MAX_VALUE;
-		for (Map.Entry<Student, Score> studentScores : this.scoreList) {
+		for (Map.Entry<Student, Score> studentScores : this.scoreList.entrySet()) {
 			min = Math.min(min, studentScores.getValue().calculateScore());
 		}
 		return min;
@@ -31,7 +31,7 @@ public class Assignment implements Gradeable{
 	public double calculateAverage() {
 		// TODO Auto-generated method stub
 		double average = 0;
-		for (Map.Entry<Student, Score> studentScores : this.scoreList) {
+		for (Map.Entry<Student, Score> studentScores : this.scoreList.entrySet()) {
 			average += studentScores.getValue().calculateScore();
 		}
 		return average / this.scoreList.size();
@@ -41,7 +41,7 @@ public class Assignment implements Gradeable{
 		// TODO Auto-generated method stub
 		double[] scores = new double[this.scoreList.size()];
 		int index = 0;
-		for (Map.Entry<Student, Score> studentScores : this.scoreList) {
+		for (Map.Entry<Student, Score> studentScores : this.scoreList.entrySet()) {
 			scores[index++] = studentScores.getValue().calculateScore();
 		}
 		Arrays.sort(scores);

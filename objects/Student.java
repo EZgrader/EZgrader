@@ -1,36 +1,19 @@
-package EZGrader
-
-class StudentName implements Comparable<Name> {
-      public String firstName;
-      public String lastName;
-      public String middleName;
-
-      public String getFullName(){
-            return this.firstName + " " + this.lastName;
-      }
-      // Compare using firstname
-      public int compareTo(Name name1, Name name2){
-            char firstLetter1 = name1.firstname.charAt(0);
-            char firstLetter2 = name2.firstname.charAt(0);
-            if (firstLetter1 > firstLetter2){
-                  return 1;
-            }else if(firstLetter1 > firstLetter2){
-                  return -1;
-            }else{
-                  return 0;
-            }
-      }
-}
+import java.util.ArrayList;
+import java.util.List;
 
 abstract class Student {
-      protected Name name;
+      protected StudentName name;
       protected String buid;
       protected String major;
       protected String college;
       protected Double gpa;
       protected List<Course> coursesList;
+      
+      public Student() {
+    	  
+      }
 
-      public student(Name name, String buid, String major, String college, double gpa){
+      public Student(StudentName name, String buid, String major, String college, double gpa){
             this.name = name;
             this.buid = buid;
             this.major = major;
@@ -39,7 +22,7 @@ abstract class Student {
             this.coursesList = new ArrayList<>();
       }
 
-      public Name getName(){
+      public StudentName getName(){
             return this.name;
       }
 
@@ -59,13 +42,13 @@ abstract class Student {
             return this.gpa;
       }
 
-      public void setName(Name name){
+      public void setName(StudentName name){
             this.name = name;
             return;
       }
 
-      public void setId(String id){
-            this.id = id;
+      public void setBUId(String id){
+            this.buid = id;
             return;
       }
 
@@ -93,34 +76,10 @@ abstract class Student {
             return course.finalScoreList.get(this);
       }
       public Score getAssignmentScore(Assignment assignment){
-            return assignment.scoreList.get(this);
+            return assignment.getScoreList().get(this);
       }
 }
 
-class UnderGraduate extends Student {
-      private String year;
-      public UnderGraduate(Name name, String buid, String major, String college, double gpa, String year){
-            this.name = name;
-            this.buid = buid;
-            this.major = major;
-            this.college = college;
-            this.gpa = gpa;
-            this.coursesList = new ArrayList<>();
-            this.year = year;
-      }
-}
+
  
-class Graduate extends Student {
-      private String undergraduateMajor; 
-      private String specialization;
-      public Graduate(Name name, String buid, String major, String college, double gpa, String undergraduateMajor, String specialization){
-            this.name = name;
-            this.buid = buid;
-            this.major = major;
-            this.college = college;
-            this.gpa = gpa;
-            this.coursesList = new ArrayList<>();
-            this.undergraduateMajor = undergraduateMajor; 
-            this.specialization = specialization;
-      }
-}
+

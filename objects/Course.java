@@ -1,5 +1,6 @@
 import java.util.Map;
 import java.util.HashMap;
+import java.util.List;
 
 
 class Course implements Gradeable{
@@ -8,55 +9,78 @@ class Course implements Gradeable{
         private CourseName courseName;
         List<Student> studentList;
         List<Assignment> assignmentList;
-		Map<Student, Double> finalScoreList;  
+		Map<Student, Double> finalScoreList; 
 		
-		public boolean addStudent(File file) {}
+		public Course() {
+			finalScoreList = new HashMap<>();
+		}
+		
+		public boolean addStudent(File file) {
+			return true;
+		}
 		public boolean addStudent(Student s) {
-			studentList.add(s);
+			return studentList.add(s);
 		}
 		public boolean deleteStudent(Student s) {
-			studentList.remove(s);
+			return studentList.remove(s);
 		}
 		 
 		public boolean addAssignment(Assignment assignment) {
-			assignmentList.add(assignment);
+			return assignmentList.add(assignment);
 		}
 		public boolean deleteAssignment(Assignment assignment) {
-			assignmentList.remove(assignment);
+			return assignmentList.remove(assignment);
 		}
 		 
-		public boolean weightEqualsOne(){} 
-		public double calculateFinalScore() {
-			Map finalScoreList = new Map<>();
+		public boolean weightEqualsOne(){
+			return true;
+		} 
+		public boolean calculateFinalScore() {
+
 			for(Student student : studentList) {
 				double finalGrade = 0.0;
 				for(Assignment assignment:  assignmentList) {
-					double currentStudentRawScore = student.getAssignmentScore(assignment);
-					double currentStudentCurvedScore = currentStudentRawScore + Score.getCurvedScore();
-					if(currentStudentCurvedScore > Score.getMaxScore()) {
-						currentStudentCurvedScore = Score.getMaxScore();
+					double currentStudentRawScore = student.getAssignmentScore(assignment).calculateScore();
+					double currentStudentCurvedScore = currentStudentRawScore+student.getAssignmentScore(assignment).getCurvedScore();
+					if(currentStudentCurvedScore > student.getAssignmentScore(assignment).getMaxScore()) {
+						currentStudentCurvedScore = student.getAssignmentScore(assignment).getMaxScore();
 					}
 					finalGrade += (currentStudentCurvedScore * assignment.getWeight());
 				}
 				
 				this.finalScoreList.put(student, finalGrade);
 			}
+			return true;
 			
 		}
 		public boolean curve(Assignment assignment , double value) {
 			
-			for(Map.entry<Student, Score> studentScores : assignment.getscoreList) {
+			for(Map.Entry<Student, Score> studentScores : assignment.getScoreList().entrySet()) {
 				studentScores.getValue().setCurvedScore(value);
 			}
+			return true;
 		}
-		public boolean changeWeight(Assignment assignment, double newWeight) {}
-		public boolean changeWeight(String type, Double newWeight) {}
-		public double getMax() {}
-		public double getMin() {}
+		public boolean changeWeight(Assignment assignment, double newWeight) {
+			return true;
+		}
+		public boolean changeWeight(String type, Double newWeight) {
+			return true;
+		}
+		public double getMax() {
+			return 0;
+		}
+		public double getMin() {
+			return 0;
+		}
 		public double calculateAverage() {
-			for(Map.entry<Student, Score> studentFinalScores : finalScoreList
+			for(Map.Entry<Student, Double> studentFinalScores : finalScoreList.entrySet()) {
+				
+			}
+			return 0;
 		}
-		public double calculateMedian() {}
+		public double calculateMedian() {
+			return 0;
+		}
 		public void printStatistics(){}
 }
 
