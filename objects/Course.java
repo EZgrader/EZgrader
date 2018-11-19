@@ -1,6 +1,6 @@
 import java.util.*;
 
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Collections;
+//import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Collections;
 
 
 class Course implements Gradeable{
@@ -82,34 +82,36 @@ class Course implements Gradeable{
 				if(assignment.getCategory().equals(category)) {
 					numberOfCategories++;
 				}
+			}
 			double newCategoryWeight = newWeight/numberOfCategories;
-			for(Assignment assignment : assignmentList) {
-				if(assignment.getCategory().equals(category)) {
-					assignment.setWeight(newCategoryWeight);
+			for(Assignment assignments : assignmentList) {
+				if(assignments.getCategory().equals(category)) {
+					assignments.setWeight(newCategoryWeight);
 				}
 			}
 			return true;
+			
 		}
 		public double getMax() {
 			double max = Integer.MIN_VALUE;
-			for (Map.Entry<Student, Score> studentFinalScores : finalScoreList.entrySet()) {
-				max = Math.max(max, studentFinalScores.getValue().calculateScore());
+			for (Map.Entry<Student, Double> studentFinalScores : finalScoreList.entrySet()) {
+				max = Math.max(max, studentFinalScores.getValue());
 			}
 			return max;
 			
 		}
 		public double getMin() {
 			double min = Integer.MAX_VALUE;
-			for (Map.Entry<Student, Score> studentFinalScores : finalScoreList.entrySet()) {
-				min = Math.min(min, studentFinalScores.getValue().calculateScore());
+			for (Map.Entry<Student, Double> studentFinalScores : finalScoreList.entrySet()) {
+				min = Math.min(min, studentFinalScores.getValue());
 			}
 			return min;
 		}
 		public double calculateAverage() {
-			double = runningSum;
-			double = numberOfStudents;
+			double runningSum = 0;
+			double numberOfStudents = 0;
 			for(Map.Entry<Student, Double> studentFinalScores : finalScoreList.entrySet()) {
-				runningSum +=studentFinalScores;
+				runningSum +=studentFinalScores.getValue();
 				numberOfStudents++;
 				
 			}
@@ -121,8 +123,8 @@ class Course implements Gradeable{
 			// TODO Auto-generated method stub
 			double[] scores = new double[finalScoreList.size()];
 			int index = 0;
-			for (Map.Entry<Student, Score> studentFinalScores : finalScoreList.entrySet()) {
-				scores[index++] = studentFinalScores.getValue().calculateScore();
+			for (Map.Entry<Student, Double> studentFinalScores : finalScoreList.entrySet()) {
+				scores[index++] = studentFinalScores.getValue();
 			}
 			Arrays.sort(scores);
 			if (scores.length % 2 == 0) {
